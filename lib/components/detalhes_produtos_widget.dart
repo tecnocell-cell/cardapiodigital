@@ -1,3 +1,4 @@
+import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_count_controller.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -51,6 +52,8 @@ class _DetalhesProdutosWidgetState extends State<DetalhesProdutosWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return SingleChildScrollView(
       child: Column(
         mainAxisSize: MainAxisSize.max,
@@ -249,10 +252,26 @@ class _DetalhesProdutosWidgetState extends State<DetalhesProdutosWidget> {
                         ),
                       ),
                     ),
-                    Icon(
-                      Icons.add_circle,
-                      color: FlutterFlowTheme.of(context).primary,
-                      size: 40.0,
+                    InkWell(
+                      splashColor: Colors.transparent,
+                      focusColor: Colors.transparent,
+                      hoverColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () async {
+                        setState(() {
+                          FFAppState().addToPedido(PedidosStruct(
+                            nomePedido: widget.titulo,
+                            preco: widget.valorpro,
+                            img: widget.img,
+                            quantidade: _model.countControllerValue?.toDouble(),
+                          ));
+                        });
+                      },
+                      child: Icon(
+                        Icons.add_circle,
+                        color: FlutterFlowTheme.of(context).primary,
+                        size: 40.0,
+                      ),
                     ),
                   ],
                 ),
