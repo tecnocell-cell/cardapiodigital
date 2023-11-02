@@ -34,6 +34,9 @@ class FFAppState extends ChangeNotifier {
               .toList() ??
           _pedido;
     });
+    _safeInit(() {
+      _adCarrinho = prefs.getDouble('ff_adCarrinho') ?? _adCarrinho;
+    });
   }
 
   void update(VoidCallback callback) {
@@ -81,6 +84,13 @@ class FFAppState extends ChangeNotifier {
     _pedido.insert(_index, _value);
     prefs.setStringList(
         'ff_pedido', _pedido.map((x) => x.serialize()).toList());
+  }
+
+  double _adCarrinho = 0.0;
+  double get adCarrinho => _adCarrinho;
+  set adCarrinho(double _value) {
+    _adCarrinho = _value;
+    prefs.setDouble('ff_adCarrinho', _value);
   }
 }
 

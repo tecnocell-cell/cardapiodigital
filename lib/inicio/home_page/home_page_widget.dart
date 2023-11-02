@@ -86,7 +86,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   ),
                   badges.Badge(
                     badgeContent: Text(
-                      '1',
+                      FFAppState().adCarrinho.toString(),
                       style: FlutterFlowTheme.of(context).titleSmall.override(
                             fontFamily: 'Readex Pro',
                             color: Colors.white,

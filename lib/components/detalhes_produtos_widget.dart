@@ -265,7 +265,10 @@ class _DetalhesProdutosWidgetState extends State<DetalhesProdutosWidget> {
                             img: widget.img,
                             quantidade: _model.countControllerValue?.toDouble(),
                           ));
+                          FFAppState().adCarrinho =
+                              FFAppState().adCarrinho + 1.0;
                         });
+                        context.safePop();
                       },
                       child: Icon(
                         Icons.add_circle,

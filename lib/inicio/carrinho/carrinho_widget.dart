@@ -236,6 +236,8 @@ class _CarrinhoWidgetState extends State<CarrinhoWidget> {
                                                 onTap: () async {
                                                   setState(() {
                                                     FFAppState().pedido = [];
+                                                    FFAppState().adCarrinho =
+                                                        0.0;
                                                   });
                                                 },
                                                 child: Icon(
