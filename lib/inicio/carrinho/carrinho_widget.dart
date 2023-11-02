@@ -1,3 +1,4 @@
+import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -81,8 +82,8 @@ class _CarrinhoWidgetState extends State<CarrinhoWidget> {
                       color: Color(0xFFF94C2F),
                       size: 25.0,
                     ),
-                    onPressed: () {
-                      print('IconButton pressed ...');
+                    onPressed: () async {
+                      context.safePop();
                     },
                   ),
                 ),
@@ -226,10 +227,22 @@ class _CarrinhoWidgetState extends State<CarrinhoWidget> {
                                             Padding(
                                               padding: EdgeInsetsDirectional
                                                   .fromSTEB(0.0, 4.0, 0.0, 0.0),
-                                              child: Icon(
-                                                Icons.delete_sharp,
-                                                color: Color(0xFFF94C2F),
-                                                size: 24.0,
+                                              child: InkWell(
+                                                splashColor: Colors.transparent,
+                                                focusColor: Colors.transparent,
+                                                hoverColor: Colors.transparent,
+                                                highlightColor:
+                                                    Colors.transparent,
+                                                onTap: () async {
+                                                  setState(() {
+                                                    FFAppState().pedido = [];
+                                                  });
+                                                },
+                                                child: Icon(
+                                                  Icons.delete_sharp,
+                                                  color: Color(0xFFF94C2F),
+                                                  size: 24.0,
+                                                ),
                                               ),
                                             ),
                                             Padding(
@@ -237,14 +250,14 @@ class _CarrinhoWidgetState extends State<CarrinhoWidget> {
                                                   .fromSTEB(
                                                       0.0, 12.0, 4.0, 8.0),
                                               child: Text(
-                                                formatNumber(
+                                                '${formatNumber(
                                                   carrinhoItem.preco,
                                                   formatType:
                                                       FormatType.decimal,
                                                   decimalType:
                                                       DecimalType.periodDecimal,
                                                   currency: 'R\$ ',
-                                                ),
+                                                )}  x  ${carrinhoItem.quantidade.toString()}',
                                                 textAlign: TextAlign.end,
                                                 style: FlutterFlowTheme.of(
                                                         context)
