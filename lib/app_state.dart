@@ -37,6 +37,12 @@ class FFAppState extends ChangeNotifier {
     _safeInit(() {
       _adCarrinho = prefs.getDouble('ff_adCarrinho') ?? _adCarrinho;
     });
+    _safeInit(() {
+      _qtdvalor = prefs.getDouble('ff_qtdvalor') ?? _qtdvalor;
+    });
+    _safeInit(() {
+      _removeitens = prefs.getDouble('ff_removeitens') ?? _removeitens;
+    });
   }
 
   void update(VoidCallback callback) {
@@ -91,6 +97,20 @@ class FFAppState extends ChangeNotifier {
   set adCarrinho(double _value) {
     _adCarrinho = _value;
     prefs.setDouble('ff_adCarrinho', _value);
+  }
+
+  double _qtdvalor = 0.0;
+  double get qtdvalor => _qtdvalor;
+  set qtdvalor(double _value) {
+    _qtdvalor = _value;
+    prefs.setDouble('ff_qtdvalor', _value);
+  }
+
+  double _removeitens = 0.0;
+  double get removeitens => _removeitens;
+  set removeitens(double _value) {
+    _removeitens = _value;
+    prefs.setDouble('ff_removeitens', _value);
   }
 }
 

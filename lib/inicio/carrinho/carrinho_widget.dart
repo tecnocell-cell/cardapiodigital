@@ -5,6 +5,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
+import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -235,9 +236,21 @@ class _CarrinhoWidgetState extends State<CarrinhoWidget> {
                                                     Colors.transparent,
                                                 onTap: () async {
                                                   setState(() {
-                                                    FFAppState().pedido = [];
+                                                    FFAppState()
+                                                        .removeAtIndexFromPedido(
+                                                            carrinhoIndex);
                                                     FFAppState().adCarrinho =
-                                                        0.0;
+                                                        FFAppState()
+                                                                .adCarrinho +
+                                                            -1.0;
+                                                    FFAppState().qtdvalor =
+                                                        FFAppState().qtdvalor +
+                                                            functions.subtracao(
+                                                                functions.qtdvalor(
+                                                                    carrinhoItem
+                                                                        .quantidade,
+                                                                    carrinhoItem
+                                                                        .preco));
                                                   });
                                                 },
                                                 child: Icon(
@@ -257,8 +270,7 @@ class _CarrinhoWidgetState extends State<CarrinhoWidget> {
                                                   formatType:
                                                       FormatType.decimal,
                                                   decimalType:
-                                                      DecimalType.periodDecimal,
-                                                  currency: 'R\$ ',
+                                                      DecimalType.automatic,
                                                 )}  x  ${carrinhoItem.quantidade.toString()}',
                                                 textAlign: TextAlign.end,
                                                 style: FlutterFlowTheme.of(
@@ -308,13 +320,30 @@ class _CarrinhoWidgetState extends State<CarrinhoWidget> {
                       Padding(
                         padding:
                             EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 12.0, 0.0),
-                        child: Text(
-                          'R\$ 12345',
-                          style:
-                              FlutterFlowTheme.of(context).bodyMedium.override(
-                                    fontFamily: 'Readex Pro',
-                                    color: Color(0xFFF94C2F),
-                                  ),
+                        child: InkWell(
+                          splashColor: Colors.transparent,
+                          focusColor: Colors.transparent,
+                          hoverColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          onTap: () async {
+                            setState(() {
+                              FFAppState().qtdvalor = 0.0;
+                            });
+                          },
+                          child: Text(
+                            formatNumber(
+                              FFAppState().qtdvalor,
+                              formatType: FormatType.decimal,
+                              decimalType: DecimalType.commaDecimal,
+                              currency: 'R\$ ',
+                            ),
+                            style: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .override(
+                                  fontFamily: 'Readex Pro',
+                                  color: Color(0xFFF94C2F),
+                                ),
+                          ),
                         ),
                       ),
                     ],

@@ -2,6 +2,7 @@ import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_count_controller.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/custom_functions.dart' as functions;
 import 'detalhes_produtos_widget.dart' show DetalhesProdutosWidget;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

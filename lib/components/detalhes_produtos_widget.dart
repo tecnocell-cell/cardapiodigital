@@ -2,6 +2,7 @@ import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_count_controller.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -267,6 +268,9 @@ class _DetalhesProdutosWidgetState extends State<DetalhesProdutosWidget> {
                           ));
                           FFAppState().adCarrinho =
                               FFAppState().adCarrinho + 1.0;
+                          FFAppState().qtdvalor = FFAppState().qtdvalor +
+                              functions.qtdvalor(widget.valorpro!,
+                                  _model.countControllerValue!.toDouble());
                         });
                         context.safePop();
                       },
