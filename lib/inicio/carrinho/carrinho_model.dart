@@ -17,16 +17,16 @@ class CarrinhoModel extends FlutterFlowModel<CarrinhoWidget> {
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
-  // State field(s) for imputmesa widget.
-  FocusNode? imputmesaFocusNode;
-  TextEditingController? imputmesaController;
-  String? Function(BuildContext, String?)? imputmesaControllerValidator;
-  // State field(s) for DropDown widget.
-  String? dropDownValue1;
-  FormFieldController<String>? dropDownValueController1;
-  // State field(s) for DropDown widget.
-  String? dropDownValue2;
-  FormFieldController<String>? dropDownValueController2;
+  // State field(s) for imputCliente widget.
+  FocusNode? imputClienteFocusNode;
+  TextEditingController? imputClienteController;
+  String? Function(BuildContext, String?)? imputClienteControllerValidator;
+  // State field(s) for dropMesa widget.
+  String? dropMesaValue;
+  FormFieldController<String>? dropMesaValueController;
+  // State field(s) for dropPagamento widget.
+  String? dropPagamentoValue;
+  FormFieldController<String>? dropPagamentoValueController;
 
   /// Initialization and disposal methods.
 
@@ -34,8 +34,8 @@ class CarrinhoModel extends FlutterFlowModel<CarrinhoWidget> {
 
   void dispose() {
     unfocusNode.dispose();
-    imputmesaFocusNode?.dispose();
-    imputmesaController?.dispose();
+    imputClienteFocusNode?.dispose();
+    imputClienteController?.dispose();
   }
 
   /// Action blocks are added here.

@@ -43,6 +43,24 @@ class FFAppState extends ChangeNotifier {
     _safeInit(() {
       _removeitens = prefs.getDouble('ff_removeitens') ?? _removeitens;
     });
+    _safeInit(() {
+      _pedidosFinalizados = prefs
+              .getStringList('ff_pedidosFinalizados')
+              ?.map((x) {
+                try {
+                  return OrdenPedidosStruct.fromSerializableMap(jsonDecode(x));
+                } catch (e) {
+                  print("Can't decode persisted data type. Error: $e.");
+                  return null;
+                }
+              })
+              .withoutNulls
+              .toList() ??
+          _pedidosFinalizados;
+    });
+    _safeInit(() {
+      _qtdvalor2 = prefs.getDouble('ff_qtdvalor2') ?? _qtdvalor2;
+    });
   }
 
   void update(VoidCallback callback) {
@@ -111,6 +129,61 @@ class FFAppState extends ChangeNotifier {
   set removeitens(double _value) {
     _removeitens = _value;
     prefs.setDouble('ff_removeitens', _value);
+  }
+
+  int _contador = -1;
+  int get contador => _contador;
+  set contador(int _value) {
+    _contador = _value;
+  }
+
+  List<OrdenPedidosStruct> _pedidosFinalizados = [];
+  List<OrdenPedidosStruct> get pedidosFinalizados => _pedidosFinalizados;
+  set pedidosFinalizados(List<OrdenPedidosStruct> _value) {
+    _pedidosFinalizados = _value;
+    prefs.setStringList(
+        'ff_pedidosFinalizados', _value.map((x) => x.serialize()).toList());
+  }
+
+  void addToPedidosFinalizados(OrdenPedidosStruct _value) {
+    _pedidosFinalizados.add(_value);
+    prefs.setStringList('ff_pedidosFinalizados',
+        _pedidosFinalizados.map((x) => x.serialize()).toList());
+  }
+
+  void removeFromPedidosFinalizados(OrdenPedidosStruct _value) {
+    _pedidosFinalizados.remove(_value);
+    prefs.setStringList('ff_pedidosFinalizados',
+        _pedidosFinalizados.map((x) => x.serialize()).toList());
+  }
+
+  void removeAtIndexFromPedidosFinalizados(int _index) {
+    _pedidosFinalizados.removeAt(_index);
+    prefs.setStringList('ff_pedidosFinalizados',
+        _pedidosFinalizados.map((x) => x.serialize()).toList());
+  }
+
+  void updatePedidosFinalizadosAtIndex(
+    int _index,
+    OrdenPedidosStruct Function(OrdenPedidosStruct) updateFn,
+  ) {
+    _pedidosFinalizados[_index] = updateFn(_pedidosFinalizados[_index]);
+    prefs.setStringList('ff_pedidosFinalizados',
+        _pedidosFinalizados.map((x) => x.serialize()).toList());
+  }
+
+  void insertAtIndexInPedidosFinalizados(
+      int _index, OrdenPedidosStruct _value) {
+    _pedidosFinalizados.insert(_index, _value);
+    prefs.setStringList('ff_pedidosFinalizados',
+        _pedidosFinalizados.map((x) => x.serialize()).toList());
+  }
+
+  double _qtdvalor2 = 0.0;
+  double get qtdvalor2 => _qtdvalor2;
+  set qtdvalor2(double _value) {
+    _qtdvalor2 = _value;
+    prefs.setDouble('ff_qtdvalor2', _value);
   }
 }
 

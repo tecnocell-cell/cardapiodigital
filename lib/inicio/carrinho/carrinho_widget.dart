@@ -31,8 +31,8 @@ class _CarrinhoWidgetState extends State<CarrinhoWidget> {
     super.initState();
     _model = createModel(context, () => CarrinhoModel());
 
-    _model.imputmesaController ??= TextEditingController();
-    _model.imputmesaFocusNode ??= FocusNode();
+    _model.imputClienteController ??= TextEditingController();
+    _model.imputClienteFocusNode ??= FocusNode();
   }
 
   @override
@@ -334,7 +334,7 @@ class _CarrinhoWidgetState extends State<CarrinhoWidget> {
                             formatNumber(
                               FFAppState().qtdvalor,
                               formatType: FormatType.decimal,
-                              decimalType: DecimalType.commaDecimal,
+                              decimalType: DecimalType.automatic,
                               currency: 'R\$ ',
                             ),
                             style: FlutterFlowTheme.of(context)
@@ -372,8 +372,8 @@ class _CarrinhoWidgetState extends State<CarrinhoWidget> {
                   child: Container(
                     width: double.infinity,
                     child: TextFormField(
-                      controller: _model.imputmesaController,
-                      focusNode: _model.imputmesaFocusNode,
+                      controller: _model.imputClienteController,
+                      focusNode: _model.imputClienteFocusNode,
                       autofocus: true,
                       autofillHints: [AutofillHints.name],
                       obscureText: false,
@@ -428,7 +428,7 @@ class _CarrinhoWidgetState extends State<CarrinhoWidget> {
                           ),
                       textAlign: TextAlign.start,
                       keyboardType: TextInputType.number,
-                      validator: _model.imputmesaControllerValidator
+                      validator: _model.imputClienteControllerValidator
                           .asValidator(context),
                     ),
                   ),
@@ -437,7 +437,7 @@ class _CarrinhoWidgetState extends State<CarrinhoWidget> {
                   padding:
                       EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 16.0),
                   child: FlutterFlowDropDown<String>(
-                    controller: _model.dropDownValueController1 ??=
+                    controller: _model.dropMesaValueController ??=
                         FormFieldController<String>(null),
                     options: [
                       'Mesa 01',
@@ -449,7 +449,7 @@ class _CarrinhoWidgetState extends State<CarrinhoWidget> {
                       'Mesa 07'
                     ],
                     onChanged: (val) =>
-                        setState(() => _model.dropDownValue1 = val),
+                        setState(() => _model.dropMesaValue = val),
                     width: 300.0,
                     height: 50.0,
                     textStyle: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -478,7 +478,7 @@ class _CarrinhoWidgetState extends State<CarrinhoWidget> {
                   padding:
                       EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 16.0),
                   child: FlutterFlowDropDown<String>(
-                    controller: _model.dropDownValueController2 ??=
+                    controller: _model.dropPagamentoValueController ??=
                         FormFieldController<String>(null),
                     options: [
                       'Cartão de Débito',
@@ -487,7 +487,7 @@ class _CarrinhoWidgetState extends State<CarrinhoWidget> {
                       'Pix'
                     ],
                     onChanged: (val) =>
-                        setState(() => _model.dropDownValue2 = val),
+                        setState(() => _model.dropPagamentoValue = val),
                     width: 300.0,
                     height: 50.0,
                     textStyle: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -521,8 +521,54 @@ class _CarrinhoWidgetState extends State<CarrinhoWidget> {
                     children: [
                       Expanded(
                         child: FFButtonWidget(
-                          onPressed: () {
-                            print('Button pressed ...');
+                          onPressed: () async {
+                            if (FFAppState().pedido.length >= 1) {
+                              setState(() {
+                                FFAppState().contador = -1;
+                              });
+                              while (FFAppState().contador <=
+                                  FFAppState().pedido.length) {
+                                setState(() {
+                                  FFAppState().contador =
+                                      FFAppState().contador + 1;
+                                });
+                              }
+                              setState(() {
+                                FFAppState()
+                                    .addToPedidosFinalizados(OrdenPedidosStruct(
+                                  nomeVliente:
+                                      _model.imputClienteController.text,
+                                  formaPag: _model.dropPagamentoValue,
+                                  mesa: _model.dropMesaValue,
+                                  pedido: FFAppState()
+                                      .pedido[FFAppState().contador]
+                                      .nomePedido,
+                                  valor: FFAppState()
+                                      .pedido[FFAppState().contador]
+                                      .preco,
+                                  quanti: FFAppState()
+                                      .pedido[FFAppState().contador]
+                                      .quantidade,
+                                  img: FFAppState()
+                                      .pedido[FFAppState().contador]
+                                      .img,
+                                  data: getCurrentTimestamp,
+                                ));
+                                FFAppState().qtdvalor2 =
+                                    FFAppState().qtdvalor2 +
+                                        functions.qtdvalor(
+                                            FFAppState()
+                                                .pedido[FFAppState().contador]
+                                                .preco,
+                                            FFAppState()
+                                                .pedido[FFAppState().contador]
+                                                .quantidade);
+                              });
+
+                              context.pushNamed('ordens_pedidos');
+                            } else {
+                              return;
+                            }
                           },
                           text: 'Finalizar Pedido',
                           options: FFButtonOptions(
